@@ -83,6 +83,17 @@ public class ProjectController {
         return null;
     }
 
+    @GetMapping("/project/update/{id}/{name}/{description}")
+    public Project updateProject(@PathVariable Long id, @PathVariable String name, @PathVariable String description) {
+        Project project = projectRepository.findById(id).orElse(null);
+        if (project != null) {
+            project.setName(name);
+            project.setDescription(description);
+            return projectRepository.save(project);
+        }
+        return null;
+    }
+
     // delete project
     @PostMapping("/project/delete/{id}")
     public void deleteProject(@PathVariable Long id) {
