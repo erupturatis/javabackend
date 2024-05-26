@@ -12,7 +12,7 @@ import com.example.demo.model.Project;
 
 import java.util.List;
 
-@CrossOrigin(origins = "localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "localhost:5173", allowCredentials = "true")
 @RestController
 public class DepartmentController {
 

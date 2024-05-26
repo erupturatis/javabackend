@@ -3,15 +3,21 @@ package com.example.demo.controller;
 import java.util.List;
 
 import com.example.demo.model.Member;
+import com.example.demo.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.Project;
+import com.example.demo.model.Department;
 import com.example.demo.service.ProjectService;
 import com.example.demo.repository.ProjectRepository;
 
+import com.example.demo.dto.CreateProjectRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 public class ProjectController {
 
@@ -20,6 +26,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     // get project by id
     @GetMapping("/project/{id}")
@@ -44,13 +53,24 @@ public class ProjectController {
         return projectRepository.findAllProjects();
     }
 
-    // add project
-    @GetMapping("/project/add/{name}")
-    public Project addProject(@PathVariable String name) {
+    // create project, needs project name and department name
+    @PostMapping("/project/create")
+    public ResponseEntity<Project> createProject(@RequestBody CreateProjectRequest createProjectRequest) {
+        // Fetch the department entity using the provided departmentId
+        Department department = departmentRepository.findById(createProjectRequest.getDepartmentId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid department ID"));
+
+        // Create the new project entity
         Project project = new Project();
-        project.setName(name);
-        return projectRepository.save(project);
+        project.setName(createProjectRequest.getName());
+        project.setDepartment(department);
+
+        // Save the project entity to the database
+        Project savedProject = projectRepository.save(project);
+
+        return new ResponseEntity<>(savedProject, HttpStatus.CREATED);
     }
+
 
     // update project
     @GetMapping("/project/update/{id}/{name}")
@@ -64,9 +84,14 @@ public class ProjectController {
     }
 
     // delete project
-    @GetMapping("/project/delete/{id}")
+    @PostMapping("/project/delete/{id}")
     public void deleteProject(@PathVariable Long id) {
         projectRepository.deleteById(id);
+    }
+
+    @GetMapping("/project/new_member/{project_id}/{member_id}")
+    public void addMemberToProject(@PathVariable Long project_id, @PathVariable Long member_id) {
+        projectService.addMemberToProject(project_id, member_id);
     }
 
 }
