@@ -32,10 +32,16 @@ public class ProjectController {
         return projectService.getProjectMembers(id);
     }
 
+    @GetMapping("/project/name/{name}")
+    public Project getProjectByName(@PathVariable String name) {
+        return projectRepository.findByName(name);
+    }
+
+
     // get all projects
     @GetMapping("/projects")
     public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findAllProjects();
     }
 
     // add project
