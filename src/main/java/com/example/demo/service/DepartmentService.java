@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.ArrayList;
 
+import com.example.demo.dto.DepartmentDTO;
 import com.example.demo.model.Department;
 import com.example.demo.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.demo.dto.ProjectDTO;
 
 import com.example.demo.repository.DepartmentRepository;
 
@@ -55,4 +59,5 @@ public class DepartmentService {
     public void deleteDepartment(Long id) {
         departmentRepository.deleteById(id);
     }
+
 }

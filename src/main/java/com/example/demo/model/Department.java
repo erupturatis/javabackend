@@ -3,6 +3,7 @@ package com.example.demo.model;
 // - Department
 //   - id, name, description
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class Department {
     private String description;
 
     @OneToMany(mappedBy = "department")
+    @JsonManagedReference
     private List<Project> projects;
 
 
