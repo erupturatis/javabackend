@@ -105,4 +105,9 @@ public class ProjectController {
         projectService.addMemberToProject(project_id, member_id);
     }
 
+    @GetMapping("/project/remove_member/{project_id}/{member_id}")
+    public void removeMemberFromProject(@PathVariable Long project_id, @PathVariable Long member_id) {
+        projectService.removeMemberFromProject(project_id, member_id);
+    }
+
 }
