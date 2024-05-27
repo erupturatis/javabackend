@@ -91,4 +91,9 @@ public class ProjectService {
             int rowsAffected = jdbcTemplate.update(sql, projectId, memberId);
         }
     }
+
+    public void removeAllMembersFromProject(Long projectId) {
+        String sql = "DELETE FROM project_member WHERE project_id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, projectId);
+    }
 }

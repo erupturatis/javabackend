@@ -97,6 +97,9 @@ public class ProjectController {
     // delete project
     @PostMapping("/project/delete/{id}")
     public void deleteProject(@PathVariable Long id) {
+        // remove all members from project
+        projectService.removeAllMembersFromProject(id);
+
         projectRepository.deleteById(id);
     }
 
